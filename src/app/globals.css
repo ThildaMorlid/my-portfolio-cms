@@ -19,3 +19,18 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@keyframes swim {
+  0% {
+    transform: translateX(-100%) rotate(0deg);
+  }
+  50% {
+    transform: translateX(100%) rotate(20deg);
+  }
+  51% {
+    transform: translateX(100%) rotate(200deg);
+  }
+  100% {
+    transform: translateX(-100%) rotate(180deg);
+  }
+}

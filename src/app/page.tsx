@@ -1,7 +1,6 @@
 import { getProjects } from '@/lib/contentful';
 import Image from 'next/image';
 import Navigation from '@/components/Navigation';
-import Link from 'next/link';
 
 interface Project {
   sys: {

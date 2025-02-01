@@ -2,7 +2,25 @@ import { getProjects } from '@/lib/contentful';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import Image from 'next/image';
 import Navigation from '@/components/Navigation';
-import Link from 'next/link';
+import type { Document } from '@contentful/rich-text-types';
+
+interface Project {
+  sys: {
+    id: string;
+  };
+  fields: {
+    title: string;
+    description: Document;
+    image: {
+      fields: {
+        file: {
+          url: string;
+        };
+      };
+    };
+    link?: string;
+  };
+}
 
 export default async function Projects() {
   const projects = await getProjects();
@@ -17,7 +35,7 @@ export default async function Projects() {
           </h1>
 
           <div className="grid grid-cols-1 gap-12">
-            {projects.map((project: any) => (
+            {projects.map((project: Project) => (
               <div key={project.sys.id} className="group">
                 <div className="md:flex gap-8 items-start">
                   {project.fields.image && (

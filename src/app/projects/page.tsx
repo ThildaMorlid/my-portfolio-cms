@@ -1,29 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getProjects } from '@/lib/contentful';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import Image from 'next/image';
 import Navigation from '@/components/Navigation';
-import type { Document } from '@contentful/rich-text-types';
-
-interface Project {
-  sys: {
-    id: string;
-  };
-  fields: {
-    title: string;
-    description: Document;
-    image: {
-      fields: {
-        file: {
-          url: string;
-        };
-      };
-    };
-    link?: string;
-  };
-}
 
 export default async function Projects() {
-  const projects = await getProjects();
+  const projects: any = await getProjects();
+
+  if (!projects) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="min-h-screen">
@@ -35,7 +21,7 @@ export default async function Projects() {
           </h1>
 
           <div className="grid grid-cols-1 gap-12">
-            {projects.map((project: Project) => (
+            {projects.map((project: any) => (
               <div key={project.sys.id} className="group">
                 <div className="md:flex gap-8 items-start">
                   {project.fields.image && (
@@ -52,7 +38,7 @@ export default async function Projects() {
                   <div className="md:w-1/2">
                     <h2 className="text-3xl font-bold mb-4">{project.fields.title}</h2>
                     <div className="prose max-w-none mb-4">
-                      {documentToReactComponents(project.fields.description)}
+                      {project.fields.description && documentToReactComponents(project.fields.description)}
                     </div>
                     {project.fields.link && (
                       <a

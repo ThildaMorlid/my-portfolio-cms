@@ -1,31 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getProjects } from '@/lib/contentful';
 import Image from 'next/image';
 import Navigation from '@/components/Navigation';
 
-interface Project {
-  sys: {
-    id: string;
-  };
-  fields: {
-    title: string;
-    slug: string;
-    image: {
-      fields: {
-        file: {
-          url: string;
-        };
-      };
-    };
-  };
-}
-
 export default async function Home() {
-  const projects = await getProjects();
+  const projects: any = await getProjects();
+
+  if (!projects) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="min-h-screen">
       <Navigation className="p-4" />
-
       <main className="px-4 py-8">
         <div className="max-w-[1400px] mx-auto mb-12">
           <h1 className="text-[8rem] font-bold leading-none tracking-tighter">
@@ -34,7 +21,7 @@ export default async function Home() {
         </div>
 
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-          {projects.map((project: Project) => (
+          {projects.map((project: any) => (
             <div key={project.sys.id} className="group cursor-pointer">
               {project.fields.image && (
                 <div className="aspect-[4/3] overflow-hidden mb-4">

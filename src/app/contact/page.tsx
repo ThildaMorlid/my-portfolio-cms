@@ -1,9 +1,14 @@
- import Navigation from '@/components/Navigation';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import Navigation from '@/components/Navigation';
 import { getContactInfo } from '@/lib/contentful';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 
 export default async function Contact() {
-  const contact = await getContactInfo();
+  const contact: any = await getContactInfo();
+
+  if (!contact) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="min-h-screen">
@@ -11,13 +16,11 @@ export default async function Contact() {
       <main className="px-4 py-8">
         <div className="max-w-[1400px] mx-auto">
           <h1 className="text-[8rem] font-bold leading-none tracking-tighter mb-12">
-            {contact.fields.title}
+            {contact.fields.title?.toString()}
           </h1>
 
           <div className="max-w-2xl text-lg space-y-8">
-            <div className="prose max-w-none">
-              {documentToReactComponents(contact.fields.description)}
-            </div>
+            {contact.fields.description && documentToReactComponents(contact.fields.description)}
 
             <div className="space-y-4">
               {contact.fields.email && (

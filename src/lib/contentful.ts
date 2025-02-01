@@ -19,3 +19,11 @@ export async function getPerson() {
   });
   return response.items[0];
 }
+
+export async function getContactInfo() {
+  const response = await client.getEntries({
+    content_type: 'contact',
+    limit: 1
+  });
+  return response.items[0];
+}
